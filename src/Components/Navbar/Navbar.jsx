@@ -10,10 +10,10 @@ const Navbar = () => {
         <NavLink to={"/assaignments"}>Assaignments</NavLink>
       </li>
       <li>
-        <NavLink to={"/submitted"}>SubmittedTask</NavLink>
+        <NavLink to={"/submitted"}>Submitted Task</NavLink>
       </li>
       <li>
-        <NavLink to={"/pending"}>PendingTask</NavLink>
+        <NavLink to={"/pending"}>Pending Task</NavLink>
       </li>
     </>
   );
@@ -39,19 +39,19 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-opacity-50 rounded-box z-[-100] mt-3 w-52 p-2 shadow text-white"
           >
             {navLinks}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Study-Assembles</a>
+        <a className="btn btn-ghost w-[150px] text-base">Study Assembles</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end gap-2">
         <button className="btn btn-secondary bg-purple-400 text-black">Login</button>
-        <a className="btn btn-circle"><IoMdLogIn></IoMdLogIn></a>
+        <a className="btn btn-circle bg-red-400 text-black"><IoMdLogIn></IoMdLogIn></a>
       </div>
     </div>
   );
