@@ -9,12 +9,12 @@ const Features = () => {
         .then(data=>setFeatures(data));
     },[])
     return (
-      <div className="mt-8 mb-24 overflow-hidden">
-        <div className="text-center font-poppins mb-20 mt-24 gap-y-3">
-          <h2 className="font-bold text-4xl">
-            <span className="bg-purple-600">All</span>{" "}
-            <span className="bg-blue-400">Featu</span>
-            <span className="bg-yellow-400">res</span>
+      <div className="mt-2 lg:mt-8 mb-24 overflow-hidden font-poppins">
+        <div className="text-center font-poppins mb-20 mt-24 gap-y-3"> 
+          <h2 className="font-bold text-2xl lg:text-4xl p-2">
+            <span className="bg-purple-200">Platform</span>{" "}
+            <span className="bg-blue-400">Features</span>{" "}
+            <span className="bg-yellow-400">Overview</span>
           </h2>
           <p className="text-base mt-4">
             Our web-based group study platform is designed to streamline the
