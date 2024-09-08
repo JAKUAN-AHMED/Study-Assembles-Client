@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Build a Responsive Portfolio Website",
+    "description": "Create a personal portfolio website that adapts to various screen sizes using HTML, CSS, and JavaScript.",
+    "level": "Easy",
+    "deadline": "2024-10-15",
+    "totalMark": 50
+  },
+  {
+    "title": "REST API with Node.js and Express",
+    "description": "Develop a RESTful API to manage a product catalog using Node.js, Express, and MongoDB.",
+    "level": "Medium",
+    "deadline": "2024-10-22",
+    "totalMark": 100
+  },
+  {
+    "title": "Implement Firebase Authentication",
+    "description": "Set up Firebase authentication to allow users to register, log in, and reset their password.",
+    "level": "Medium",
+    "deadline": "2024-11-01",
+    "totalMark": 80
+  },
+  {
+    "title": "JavaScript Quiz App",
+    "description": "Create a dynamic quiz app using JavaScript to test users' knowledge of programming.",
+    "level": "Easy",
+    "deadline": "2024-10-18",
+    "totalMark": 40
+  },
+  {
+    "title": "Build a Fullstack MERN Application",
+    "description": "Develop a full-stack application using MongoDB, Express.js, React, and Node.js.",
+    "level": "Hard",
+    "deadline": "2024-11-10",
+    "totalMark": 150
+  },
+  {
+    "title": "CSS Grid and Flexbox Layout Challenge",
+    "description": "Create a website layout using both CSS Grid and Flexbox to showcase mastery of layout techniques.",
+    "level": "Medium",
+    "deadline": "2024-10-25",
+    "totalMark": 60
+  },
+  {
+    "title": "Implement Dark Mode Toggle",
+    "description": "Add a light/dark mode toggle to a React application using CSS and context API.",
+    "level": "Easy",
+    "deadline": "2024-10-12",
+    "totalMark": 30
+  },
+  {
+    "title": "Build a Real-time Chat Application",
+    "description": "Create a real-time chat application using WebSocket or Firebase real-time database.",
+    "level": "Hard",
+    "deadline": "2024-11-15",
+    "totalMark": 120
+  },
+  {
+    "title": "Create an E-commerce Product Page",
+    "description": "Develop a responsive product page with filters, sorting, and pagination using React.",
+    "level": "Medium",
+    "deadline": "2024-10-30",
+    "totalMark": 90
+  },
+  {
+    "title": "Deploy a Website to Firebase",
+    "description": "Deploy a static website or React app to Firebase and configure custom domain and HTTPS.",
+    "level": "Easy",
+    "deadline": "2024-10-05",
+    "totalMark": 20
+  }
+]
