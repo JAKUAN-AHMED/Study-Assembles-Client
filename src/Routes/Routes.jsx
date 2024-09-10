@@ -4,9 +4,9 @@ import Home from "../Pages/Home/Home";
 import Errorpage from "../Pages/NotFound/Errorpage";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/Login/Login";
-import AssaignmentForm from "../Pages/AssaignmentsForm/AssaignmentForm";
 import PrivateRoutes from "../Utility/Private/PrivateRoutes";
-
+import Assignments from "../Pages/Assignments/Assingnments";
+import AssignmentForm from "../Pages/AssignmentsForm/AssignmentForm";
 const router = createBrowserRouter([
   {
     path: "",
@@ -26,10 +26,14 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
+        path: "/assignments",
+        element: <Assignments></Assignments>,
+      },
+      {
         path: "/create",
         element: (
           <PrivateRoutes>
-            <AssaignmentForm></AssaignmentForm>
+            <AssignmentForm></AssignmentForm>
           </PrivateRoutes>
         ),
       },

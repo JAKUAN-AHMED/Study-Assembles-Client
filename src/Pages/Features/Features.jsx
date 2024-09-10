@@ -4,9 +4,9 @@ import FeatureCard from "../../Cards/FeatureCard";
 const Features = () => {
     const[features,setFeatures]=useState([]);
     useEffect(()=>{
-        fetch('features.json')
-        .then(res=>res.json())
-        .then(data=>setFeatures(data));
+        fetch("http://localhost:9999/tasks")
+          .then((res) => res.json())
+          .then((data) => setFeatures(data));
     },[])
     return (
       <div className="mt-2 lg:mt-8 mb-24 overflow-hidden font-poppins">

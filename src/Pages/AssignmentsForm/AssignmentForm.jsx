@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useContext,useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
+import { AuthContext } from "../../Contexts/Provider/ProviderContext";
 
-const AssaignmentForm = () => {
+const AssignmentForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [marks, setMarks] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
   const [difficulty, setDifficulty] = useState("easy");
   const [dueDate, setDueDate] = useState(null);
-
+  const {User}=useContext(AuthContext);
+  const {email,displayName}=User;
+  const AssignmentData={email,displayName,title,description,thumbnailURL,difficulty,dueDate,marks};
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -31,7 +34,24 @@ const AssaignmentForm = () => {
     setThumbnailURL("");
     setDifficulty("easy");
     setDueDate(null);
-  };
+    //post data to server
+    fetch("http://localhost:9999/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(AssignmentData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          Swal.fire({
+            title: "Successfully Inserted",
+            icon: "success",
+          });
+        }
+      });
+  }
 
   return (
     <div>
@@ -162,4 +182,4 @@ const AssaignmentForm = () => {
   );
 };
 
-export default AssaignmentForm;
+export default AssignmentForm;

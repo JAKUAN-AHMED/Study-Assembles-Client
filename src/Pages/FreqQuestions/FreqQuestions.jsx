@@ -7,17 +7,17 @@ const FreqQuestions = () => {
     {
       question: "How do I create an assignment?",
       answer:
-        "To create an assignment, go to the 'Assignments' tab and click 'Create New Assignment'. Fill in the required fields and click submit.",
+        "To create an assignment, go to the '' tab and click 'Create New Assignment'. Fill in the required fields and click submit.",
     },
     {
       question: "How can I submit my assignment?",
       answer:
-        "Go to 'My Assignments', select the assignment, and click 'Submit'. You can upload your file and notes from there.",
+        "Go to 'My ', select the assignment, and click 'Submit'. You can upload your file and notes from there.",
     },
     {
       question: "How do I grade an assignment?",
       answer:
-        "In the 'Pending Assignments' section, you can review submissions, assign marks, and provide feedback.",
+        "In the 'Pending ' section, you can review submissions, assign marks, and provide feedback.",
     },
     {
       question: "Can I update or delete an assignment?",
