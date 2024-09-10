@@ -1,22 +1,104 @@
-import{ useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Contexts/Provider/ProviderContext";
 
-const Assignments= () => {
-  const [assignmentsData,setAssignments]=useState([]);
-  useEffect(()=>{
-    fetch("http://localhost:9999/tasks")
-    .then(res=>res.json())
-    .then(data=>setAssignments(data));
-  })
+const Assignments = () => {
+  const [assignmentsData, setAssignments] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { User } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetch("http://localhost:9999/tasks", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => setAssignments(data));
+  }, []);
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  const filteredassignments =
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:9999/tasks/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              Swal.fire(
+                "Deleted!",
+                "Your assignment has been deleted.",
+                "success"
+              );
+              setAssignments(assignmentsData.filter((item) => item._id !== id));
+            }
+          });
+      }
+    });
+  };
+
+  const handleUpdateClick = (assignment) => {
+    setSelectedAssignment(assignment);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdate = () => {
+    fetch("http://localhost:9999/tasks", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => setAssignments(data));
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedAssignment(null);
+  };
+
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:9999/tasks/${selectedAssignment._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: e.target.title.value,
+        description: e.target.description.value,
+        marks: e.target.marks.value,
+        difficulty: e.target.difficulty.value,
+        dueDate: e.target.dueDate.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          Swal.fire("Updated!", "The assignment has been updated.", "success");
+          handleUpdate(); // Refresh the list
+          handleModalClose(); // Close the modal
+        } else {
+          Swal.fire(
+            "Error!",
+            data.message || "Failed to update the assignment.",
+            "error"
+          );
+        }
+      });
+  };
+
+  const filteredAssignments =
     filter === "all"
       ? assignmentsData
       : assignmentsData.filter(
@@ -25,7 +107,7 @@ const Assignments= () => {
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className="container mx-auto px-4 py-8 mb-8 mt-8">
         <h1 className="text-3xl font-bold text-center mb-6">Assignments</h1>
 
@@ -43,9 +125,9 @@ const Assignments= () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {filteredassignments.map((assignment) => (
+          {filteredAssignments.map((assignment) => (
             <div
-              key={assignment.title}
+              key={assignment._id}
               className="bg-white border rounded-lg shadow-lg overflow-hidden"
             >
               <img
@@ -66,18 +148,122 @@ const Assignments= () => {
                   Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
                 </p>
               </div>
-              <div className="flex justify-end p-4">
-                <Link to={`/assignments/${assignment.id}`}>
+              <div className="flex justify-between p-4">
+                <Link to={`/assignments/${assignment._id}`}>
                   <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
                     View
                   </button>
                 </Link>
+                <button
+                  onClick={() => handleUpdateClick(assignment)}
+                  className="bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600"
+                >
+                  Update
+                </button>
+                {User && User.email === assignment.userEmail ? (
+                  <button
+                    onClick={() => handleDelete(assignment._id)}
+                    className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                ) : (
+                  <button
+                    className="bg-gray-400 text-white rounded px-4 py-2 cursor-not-allowed"
+                    disabled
+                  >
+                    Cannot Delete
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
-      <Footer></Footer>
+
+      {/* Update Modal */}
+      {isModalOpen && selectedAssignment && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-lg">
+            <h2 className="text-2xl font-bold mb-4">Update Assignment</h2>
+            <form onSubmit={handleUpdateSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  defaultValue={selectedAssignment.title}
+                  className="border border-gray-300 rounded-md p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  defaultValue={selectedAssignment.description}
+                  className="border border-gray-300 rounded-md p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Marks</label>
+                <input
+                  type="number"
+                  name="marks"
+                  defaultValue={selectedAssignment.marks}
+                  className="border border-gray-300 rounded-md p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Difficulty</label>
+                <select
+                  name="difficulty"
+                  defaultValue={selectedAssignment.difficulty}
+                  className="border border-gray-300 rounded-md p-2 w-full"
+                  required
+                >
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Due Date</label>
+                <input
+                  type="date"
+                  name="dueDate"
+                  defaultValue={
+                    new Date(selectedAssignment.dueDate)
+                      .toISOString()
+                      .split("T")[0]
+                  }
+                  className="border border-gray-300 rounded-md p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleModalClose}
+                  className="bg-gray-500 text-white rounded px-4 py-2 mr-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white rounded px-4 py-2"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 };
