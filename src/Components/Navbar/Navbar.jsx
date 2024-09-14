@@ -105,7 +105,7 @@ const Navbar = () => {
               <a className="btn btn-circle" onClick={handleAvatarClick}>
                 <img
                   className="border rounded-full w-10 h-10"
-                  src={User?.photoURL || "https://via.placeholder.com/50"}
+                  src={User?.photoURL || "https://via.placeholder.com/150"} // Use a placeholder image or a valid URL
                   alt={User?.displayName || "user"}
                   title={User?.displayName || "user"}
                   style={{ cursor: "pointer" }}
@@ -118,7 +118,7 @@ const Navbar = () => {
                 >
                   <div className="flex items-center p-2 border-b">
                     <img
-                      src={User?.photoURL || "https://via.placeholder.com/50"}
+                      src={User?.photoURL || "User"}
                       alt={User?.displayName || "user"}
                       className="w-10 h-10 rounded-full mr-2"
                     />
@@ -130,7 +130,7 @@ const Navbar = () => {
                   >
                     <FaSignOutAlt className="mr-2" /> Log Out
                   </button>
-                  <Link to="/my-submissions">
+                  <Link to="/mysubmission">
                     <button className="flex items-center p-2 hover:bg-gray-200 w-full text-left">
                       <FaClipboardList className="mr-2" /> My Submissions
                     </button>

@@ -4,7 +4,7 @@ import FeatureCard from "../../Cards/FeatureCard";
 const Features = () => {
     const[features,setFeatures]=useState([]);
     useEffect(()=>{
-        fetch("http://localhost:9999/tasks")
+        fetch("http://localhost:9998/tasks")
           .then((res) => res.json())
           .then((data) => setFeatures(data));
     },[])

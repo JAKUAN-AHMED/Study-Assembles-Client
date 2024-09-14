@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 const FeatureCard = ({item}) => {
-    const { title, description, marks, difficulty, thumbnailURL, dueDate } =
+    const { title, description, marks, difficulty, thumbnailURL, dueDate,_id } =
       item;
     return (
       <div className="card bg-base-100  shadow-xl">
@@ -17,9 +19,12 @@ const FeatureCard = ({item}) => {
             <div className="badge badge-outline bg-red-400">{difficulty}</div>
           </div>
           <div className="flex items-end">
-            <button className="btn btn-secondary bg-blue-400 text-end text-white text-base ">
-              view
-            </button>
+            <Link to={`/assignments/${_id}`}>
+              {" "}
+              <button className="btn btn-secondary bg-blue-400 text-end text-white text-base ">
+                view
+              </button>
+            </Link>
           </div>
         </div>
       </div>

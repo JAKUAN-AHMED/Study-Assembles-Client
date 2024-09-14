@@ -8,6 +8,9 @@ import PrivateRoutes from "../Utility/Private/PrivateRoutes";
 import Assignments from "../Pages/Assignments/Assingnments";
 import AssignmentForm from "../Pages/AssignmentsForm/AssignmentForm";
 import PendingAssignments from "../Pages/PendingAssignments/PendingAssignments";
+import ViewPage from "../Pages/ViewPage/ViewPage";
+import SubmittedAssaignments from "../Pages/SubmittedAssaingments/SubmittedAssaignments";
+import GiveMarks from "../Pages/GiveMarks/GiveMarks";
 const router = createBrowserRouter([
   {
     path: "",
@@ -33,6 +36,29 @@ const router = createBrowserRouter([
       {
         path: "/pending",
         element: <PendingAssignments></PendingAssignments>,
+      },
+      {
+        path: "/mysubmission",
+        element: <SubmittedAssaignments></SubmittedAssaignments>,
+      },
+      {
+        path: "/give-marks/:id",
+        element: <GiveMarks></GiveMarks>,
+      },
+      {
+        path: "/assignments/:id",
+        element: <ViewPage />,
+        loader: async ({ params }) => {
+          const response = await fetch(
+            `http://localhost:9998/tasks/${params.id}`
+          );
+          if (!response.ok) {
+            throw new Response("Failed to fetch assignment", {
+              status: response.status,
+            });
+          }
+          return response.json();
+        },
       },
       {
         path: "/create",

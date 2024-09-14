@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/Provider/ProviderContext";
+import { Link} from "react-router-dom";
 
 const Assignments = () => {
   const [assignmentsData, setAssignments] = useState([]);
@@ -12,8 +12,9 @@ const Assignments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { User } = useContext(AuthContext);
 
+
   useEffect(() => {
-    fetch("http://localhost:9999/tasks", { credentials: "include" })
+    fetch("http://localhost:9998/tasks", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAssignments(data));
   }, []);
@@ -33,7 +34,7 @@ const Assignments = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:9999/tasks/${id}`, {
+        fetch(`http://localhost:9998/tasks/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -57,7 +58,7 @@ const Assignments = () => {
   };
 
   const handleUpdate = () => {
-    fetch("http://localhost:9999/tasks", { credentials: "include" })
+    fetch("http://localhost:9998/tasks", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAssignments(data));
   };
@@ -69,7 +70,7 @@ const Assignments = () => {
 
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:9999/tasks/${selectedAssignment._id}`, {
+    fetch(`http://localhost:9998/tasks/${selectedAssignment._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
