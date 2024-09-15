@@ -1,8 +1,17 @@
-
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import app from "../../Firebase/firebase.config";
+import axios from "axios";
 export const AuthContext = createContext();
 const ProviderContext = ({ children }) => {
   const auth = getAuth(app);
@@ -37,9 +46,23 @@ const ProviderContext = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      console.log("currentUser", currentUser);
+      const userEmail=currentUser?.email || User?.email;
+      const loggedUser = { email: userEmail };
+
       setUser(currentUser);
       setLoader(false);
+      //if currentUser exist issue a token
+      if (currentUser) {
+        axios.post(`http://localhost:9998/jwt`,loggedUser,{withCredentials:true}).then((res) => {
+          console.log('token response',res.data);
+        });
+      }
+      else{
+        axios.post(`http://localhost:9998/logout`,loggedUser,{withCredentials:true}).then(res=>{
+          console.log('last logged user',res.data)
+        })
+      }
     });
     return () => {
       unsubscribe();

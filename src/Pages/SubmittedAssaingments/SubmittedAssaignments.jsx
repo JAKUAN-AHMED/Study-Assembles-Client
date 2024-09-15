@@ -9,20 +9,14 @@ const SubmittedAssignments = () => {
   // Fetch assignments for the logged-in user
   useEffect(() => {
     const fetchAssignments = async () => {
-      const response = await fetch(`http://localhost:9998/submit`);
+      const response = await fetch(`http://localhost:9998/submit/${User?.email}`,{credentials:'include'});
       const data = await response.json();
-      if (Array.isArray(data)) {
-        // Filter assignments for the logged-in user
-        const userAssignments = data.filter(
-          (assignment) => assignment.userEmail === User.email
-        );
-        setAssignments(userAssignments);
-      }
+      setAssignments(data);
+
     };
 
     fetchAssignments();
-  }, [User?.email]); // Use User.email as dependency
-
+  }, [User?.email]);
   if (Loader) {
     return (
       <div className="flex justify-center items-center h-screen">

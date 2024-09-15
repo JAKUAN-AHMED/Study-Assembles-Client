@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Contexts/Provider/ProviderContext";
 
 const FeatureCard = ({item}) => {
+  const {User}=useContext(AuthContext);
     const { title, description, marks, difficulty, thumbnailURL, dueDate,_id } =
       item;
     return (
@@ -19,12 +22,21 @@ const FeatureCard = ({item}) => {
             <div className="badge badge-outline bg-red-400">{difficulty}</div>
           </div>
           <div className="flex items-end">
-            <Link to={`/assignments/${_id}`}>
-              {" "}
-              <button className="btn btn-secondary bg-blue-400 text-end text-white text-base ">
-                view
-              </button>
-            </Link>
+            {User ? (
+              <Link to={`/assignments/${_id}`}>
+                {" "}
+                <button className="btn btn-secondary bg-blue-400 text-end text-white text-base ">
+                  view
+                </button>
+              </Link>
+            ) : (
+              <Link to={`/login`}>
+                {" "}
+                <button className="btn btn-secondary bg-blue-400 text-end text-white text-base ">
+                  view
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

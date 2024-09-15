@@ -4,6 +4,13 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../../Contexts/Provider/ProviderContext";
 import { FaSignOutAlt, FaClipboardList } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const characterVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const Navbar = () => {
   const { User, LogOut } = useContext(AuthContext);
@@ -17,7 +24,7 @@ const Navbar = () => {
   const handleLogOut = () => {
     LogOut()
       .then(() => {
-        setIsDropdownOpen(false); // Close the dropdown after logout
+        setIsDropdownOpen(false);
         Swal.fire({
           title: "Log Out Successfully",
           icon: "success",
@@ -64,9 +71,12 @@ const Navbar = () => {
       )}
     </>
   );
+
+  const logoText = "Study Assembler";
+
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-white">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -87,14 +97,30 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content text-white rounded-box z-[-100] mt-3 w-52 p-2 shadow "
+              className="menu menu-sm dropdown-content text-white rounded-box mt-3 w-52 p-2 shadow"
             >
               {navLinks}
             </ul>
           </div>
-          <a className="btn btn-ghost w-[150px] lg:w-[250px] text-base lg:text-xl">
-            Study Assembles
-          </a>
+          <div className="flex flex-col items-center">
+            <div className="flex flex-wrap bg-gradient-to-r from-purple-400 via-purple-600 to-black p-2 rounded-md">
+              {logoText.split("").map((char, index) => (
+                <motion.span
+                  key={index}
+                  variants={characterVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: index * 0.1 }}
+                  className="font-bold italic text-white mx-1"
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </div>
+            <Typography variant="body2" color="textSecondary" className="mt-2">
+              Make Your Study Perfect
+            </Typography>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
@@ -105,7 +131,7 @@ const Navbar = () => {
               <a className="btn btn-circle" onClick={handleAvatarClick}>
                 <img
                   className="border rounded-full w-10 h-10"
-                  src={User?.photoURL || "https://via.placeholder.com/150"} // Use a placeholder image or a valid URL
+                  src={User?.photoURL || "https://via.placeholder.com/150"}
                   alt={User?.displayName || "user"}
                   title={User?.displayName || "user"}
                   style={{ cursor: "pointer" }}
@@ -114,7 +140,7 @@ const Navbar = () => {
               {isDropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className="absolute right-0 mt-40 w-48 bg-white border rounded-lg shadow-lg p-2 z-50"
+                  className="absolute right-0 mt-12 w-48 bg-white border rounded-lg shadow-lg p-2 z-50"
                 >
                   <div className="flex items-center p-2 border-b">
                     <img
@@ -145,15 +171,17 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <div>
-              <button className="bg-purple-400 text-black font-poppins font-bold text-base border rounded-md shadow-lg">
-                Register
-              </button>
-              <a className="btn btn-circle bg-red-400 text-black">
-                <Link to={"/login"}>
+            <div className="flex items-center gap-2">
+              <Link to="/register">
+                <button className="bg-purple-400 text-black font-poppins font-bold text-base border rounded-md shadow-lg">
+                  Register
+                </button>
+              </Link>
+              <Link to="/login">
+                <a className="btn btn-circle bg-red-400 text-black">
                   <IoMdLogIn />
-                </Link>
-              </a>
+                </a>
+              </Link>
             </div>
           )}
         </div>

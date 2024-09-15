@@ -3,7 +3,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/Provider/ProviderContext";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Assignments = () => {
   const [assignmentsData, setAssignments] = useState([]);
@@ -12,11 +12,11 @@ const Assignments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { User } = useContext(AuthContext);
 
-
   useEffect(() => {
     fetch("http://localhost:9998/tasks", { credentials: "include" })
       .then((res) => res.json())
-      .then((data) => setAssignments(data));
+      .then((data) => setAssignments(data))
+      .catch((error) => console.error("Error fetching assignments:", error));
   }, []);
 
   const handleFilterChange = (e) => {
@@ -47,7 +47,8 @@ const Assignments = () => {
               );
               setAssignments(assignmentsData.filter((item) => item._id !== id));
             }
-          });
+          })
+          .catch((error) => console.error("Error deleting assignment:", error));
       }
     });
   };
@@ -57,12 +58,6 @@ const Assignments = () => {
     setIsModalOpen(true);
   };
 
-  const handleUpdate = () => {
-    fetch("http://localhost:9998/tasks", { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => setAssignments(data));
-  };
-
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedAssignment(null);
@@ -70,24 +65,36 @@ const Assignments = () => {
 
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
+
+    const updatedAssignment = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+      marks: e.target.marks.value,
+      difficulty: e.target.difficulty.value,
+      dueDate: e.target.dueDate.value,
+    };
+
     fetch(`http://localhost:9998/tasks/${selectedAssignment._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title: e.target.title.value,
-        description: e.target.description.value,
-        marks: e.target.marks.value,
-        difficulty: e.target.difficulty.value,
-        dueDate: e.target.dueDate.value,
-      }),
+      body: JSON.stringify(updatedAssignment),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           Swal.fire("Updated!", "The assignment has been updated.", "success");
-          handleUpdate(); // Refresh the list
+
+          // Update the state with the new assignment data
+          setAssignments((prevAssignments) =>
+            prevAssignments.map((assignment) =>
+              assignment._id === selectedAssignment._id
+                ? { ...assignment, ...updatedAssignment }
+                : assignment
+            )
+          );
+
           handleModalClose(); // Close the modal
         } else {
           Swal.fire(
@@ -96,6 +103,14 @@ const Assignments = () => {
             "error"
           );
         }
+      })
+      .catch((error) => {
+        console.error("Error updating assignment:", error);
+        Swal.fire(
+          "Error!",
+          "An error occurred while updating the assignment.",
+          "error"
+        );
       });
   };
 
@@ -149,19 +164,35 @@ const Assignments = () => {
                   Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
                 </p>
               </div>
-              <div className="flex justify-between p-4">
-                <Link to={`/assignments/${assignment._id}`}>
-                  <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
-                    View
+              <div className="flex justify-between p-2">
+                {User ? (
+                  <Link to={`/assignments/${assignment._id}`}>
+                    <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
+                      View
+                    </button>
+                  </Link>
+                ) : (
+                  <Link to={"/login"}>
+                    <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
+                      View
+                    </button>
+                  </Link>
+                )}
+                {User ? (
+                  <button
+                    onClick={() => handleUpdateClick(assignment)}
+                    className="bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600"
+                  >
+                    Update
                   </button>
-                </Link>
-                <button
-                  onClick={() => handleUpdateClick(assignment)}
-                  className="bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600"
-                >
-                  Update
-                </button>
-                {User && User.email === assignment.userEmail ? (
+                ) : (
+                  <Link to={"/login"}>
+                    <button className="bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600">
+                      Update
+                    </button>
+                  </Link>
+                )}
+                {User && User?.email === assignment.userEmail ? (
                   <button
                     onClick={() => handleDelete(assignment._id)}
                     className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600"
