@@ -11,6 +11,8 @@ import PendingAssignments from "../Pages/PendingAssignments/PendingAssignments";
 import ViewPage from "../Pages/ViewPage/ViewPage";
 import SubmittedAssaignments from "../Pages/SubmittedAssaingments/SubmittedAssaignments";
 import GiveMarks from "../Pages/GiveMarks/GiveMarks";
+import ContactUs from "../Pages/ContactUs/ContactUS";
+import DeveloperProfile from "../Pages/Developer/DeveloperProfile";
 const router = createBrowserRouter([
   {
     path: "",
@@ -34,12 +36,37 @@ const router = createBrowserRouter([
         element: <Assignments></Assignments>,
       },
       {
+        path: "/contact",
+        element: (
+          <PrivateRoutes>
+            <ContactUs></ContactUs>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/developer",
+        element: (
+          <PrivateRoutes>
+            <DeveloperProfile></DeveloperProfile>
+          </PrivateRoutes>
+        ),
+      },
+      {
         path: "/pending",
-        element: <PendingAssignments></PendingAssignments>,
+        element: (
+          <PrivateRoutes>
+            <PendingAssignments></PendingAssignments>
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/mysubmission",
-        element: <SubmittedAssaignments></SubmittedAssaignments>,
+        element: (
+          <PrivateRoutes>
+            {" "}
+            <SubmittedAssaignments></SubmittedAssaignments>
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/give-marks/:id",
@@ -47,7 +74,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/assignments/:id",
-        element: <ViewPage />,
+        element: (
+          <PrivateRoutes>
+            <ViewPage />
+          </PrivateRoutes>
+        ),
         loader: async ({ params }) => {
           const response = await fetch(
             `http://localhost:9998/tasks/${params.id}`

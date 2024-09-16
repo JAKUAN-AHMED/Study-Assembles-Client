@@ -11,18 +11,15 @@ const Assignments = () => {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { User } = useContext(AuthContext);
-
   useEffect(() => {
-    fetch("http://localhost:9998/tasks", { credentials: "include" })
+    fetch(`http://localhost:9998/tasks`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAssignments(data))
-      .catch((error) => console.error("Error fetching assignments:", error));
+      .catch((error) => console.log(error.message));
   }, []);
-
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
-
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -31,7 +28,7 @@ const Assignments = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes,delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`http://localhost:9998/tasks/${id}`, {
@@ -57,15 +54,12 @@ const Assignments = () => {
     setSelectedAssignment(assignment);
     setIsModalOpen(true);
   };
-
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedAssignment(null);
   };
-
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
-
     const updatedAssignment = {
       title: e.target.title.value,
       description: e.target.description.value,
@@ -73,11 +67,10 @@ const Assignments = () => {
       difficulty: e.target.difficulty.value,
       dueDate: e.target.dueDate.value,
     };
-
     fetch(`http://localhost:9998/tasks/${selectedAssignment._id}`, {
-      method: "PUT",
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "applicatioin/json",
       },
       body: JSON.stringify(updatedAssignment),
     })
@@ -85,8 +78,6 @@ const Assignments = () => {
       .then((data) => {
         if (data.success) {
           Swal.fire("Updated!", "The assignment has been updated.", "success");
-
-          // Update the state with the new assignment data
           setAssignments((prevAssignments) =>
             prevAssignments.map((assignment) =>
               assignment._id === selectedAssignment._id
@@ -94,8 +85,7 @@ const Assignments = () => {
                 : assignment
             )
           );
-
-          handleModalClose(); // Close the modal
+          handleModalClose();
         } else {
           Swal.fire(
             "Error!",
@@ -113,14 +103,12 @@ const Assignments = () => {
         );
       });
   };
-
-  const filteredAssignments =
-    filter === "all"
-      ? assignmentsData
-      : assignmentsData.filter(
-          (assignment) => assignment.difficulty === filter
+  const filteredAssignments=
+    filter=="all"
+      ?assignmentsData
+      :assignmentsData.filter(
+          (assignment)=>assignment.difficulty===filter
         );
-
   return (
     <div>
       <Navbar />
