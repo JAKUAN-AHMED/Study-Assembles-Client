@@ -17,7 +17,7 @@ const PendingAssignments = () => {
     const fetchPendingAssignments = async () => {
       try {
         const response = await fetch(
-          "http://localhost:9998/submissions/pending"
+          "https://study-assembles-server.onrender.com/submissions/pending"
         );
         const data = await response.json();
         setPendingAssignments(data);

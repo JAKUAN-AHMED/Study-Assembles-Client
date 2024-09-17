@@ -19,7 +19,7 @@ const Assignments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { User } = useContext(AuthContext);
   useEffect(() => {
-    fetch(`http://localhost:9998/tasks`, { credentials: "include" })
+    fetch(`https://study-assembles-server.onrender.com/tasks`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAssignments(data))
       .catch((error) => console.log(error.message));
@@ -38,7 +38,7 @@ const Assignments = () => {
       confirmButtonText: "Yes,delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:9998/tasks/${id}`, {
+        fetch(`https://study-assembles-server.onrender.com/tasks/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -74,7 +74,7 @@ const Assignments = () => {
       difficulty: e.target.difficulty.value,
       dueDate: e.target.dueDate.value,
     };
-    fetch(`http://localhost:9998/tasks/${selectedAssignment._id}`, {
+    fetch(`https://study-assembles-server.onrender.com/tasks/${selectedAssignment._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "applicatioin/json",
@@ -119,7 +119,7 @@ const Assignments = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto px-4 py-8 mb-8 mt-8">
+      <div className="container  px-4 py-8 mb-8 mt-8 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-6">Assignments</h1>
 
         <div className="flex justify-center mb-6">

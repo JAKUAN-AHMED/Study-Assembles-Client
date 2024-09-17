@@ -54,12 +54,12 @@ const ProviderContext = ({ children }) => {
       setLoader(false);
       //if currentUser exist issue a token
       if (currentUser) {
-        axios.post(`http://localhost:9998/jwt`,loggedUser,{withCredentials:true}).then((res) => {
+        axios.post(`https://study-assembles-server.onrender.com/jwt`,loggedUser,{withCredentials:true}).then((res) => {
           console.log('token response',res.data);
         });
       }
       else{
-        axios.post(`http://localhost:9998/logout`,loggedUser,{withCredentials:true}).then(res=>{
+        axios.post(`https://study-assembles-server.onrender.com/logout`,loggedUser,{withCredentials:true}).then(res=>{
           console.log('last logged user',res.data)
         })
       }

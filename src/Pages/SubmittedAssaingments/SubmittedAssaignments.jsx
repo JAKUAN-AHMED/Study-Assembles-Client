@@ -15,7 +15,7 @@ const SubmittedAssignments = () => {
   // Fetch assignments for the logged-in user
   useEffect(() => {
     const fetchAssignments = async () => {
-      const response = await fetch(`http://localhost:9998/submit/${User?.email}`,{credentials:'include'});
+      const response = await fetch(`https://study-assembles-server.onrender.com/submit/${User?.email}`,{credentials:'include'});
       const data = await response.json();
       setAssignments(data);
 
@@ -25,7 +25,7 @@ const SubmittedAssignments = () => {
   }, [User?.email]);
   if (Loader) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen max-w-6xl mx-auto">
         <div className="space-y-4">
           <span className="loading loading-spinner text-primary"></span>
           <span className="loading loading-spinner text-secondary"></span>

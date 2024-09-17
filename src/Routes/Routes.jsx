@@ -81,7 +81,7 @@ const router = createBrowserRouter([
         ),
         loader: async ({ params }) => {
           const response = await fetch(
-            `http://localhost:9998/tasks/${params.id}`
+            `https://study-assembles-server.onrender.com/tasks/${params.id}`
           );
           if (!response.ok) {
             throw new Response("Failed to fetch assignment", {

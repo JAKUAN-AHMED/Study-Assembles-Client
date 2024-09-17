@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const FreqQuestions = () => {
@@ -38,18 +38,19 @@ const FreqQuestions = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center bg-gray-300 p-8 rounded-lg shadow-lg mb-8 mt-12">
+    <div className="flex flex-col lg:flex-row justify-center items-center bg-gray-300 p-8 rounded-lg shadow-lg mb-8 mt-12 overflow-hidden">
       {/* Left Side: Questions */}
       <div className="w-full lg:w-1/2 p-4">
         <h2 className="text-3xl font-bold text-black mb-6">
           Frequently Asked Questions
         </h2>
-        <ul className="space-y-4" data-aos="fade-up-left">
+        <ul className="space-y-4">
           {questions.map((item, index) => (
             <li
               key={index}
-              data-aos="fade-up-left"
+              
               onClick={() => setSelectedQuestion(item)}
+              data-aos="fade-up-left"
               className={`cursor-pointer p-4 border rounded-lg transition-colors ${
                 selectedQuestion === item
                   ? "bg-purple-600 text-white"

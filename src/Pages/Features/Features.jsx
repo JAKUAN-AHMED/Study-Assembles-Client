@@ -4,7 +4,7 @@ import FeatureCard from "../../Cards/FeatureCard";
 const Features = () => {
     const[features,setFeatures]=useState([]);
     useEffect(()=>{
-        fetch(`http://localhost:9998/tasks`,{credentials:'include'})
+        fetch(`https://study-assembles-server.onrender.com/tasks`,{credentials:'include'})
           .then((res) => res.json())
           .then((data) => setFeatures(data));
     },[])

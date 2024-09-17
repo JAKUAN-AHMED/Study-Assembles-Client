@@ -32,7 +32,7 @@ const ViewPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:9998/submit", {
+      const response = await fetch("https://study-assembles-server.onrender.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -11,7 +11,7 @@ const GiveMarks = () => {
   useEffect(() => {
     const fetchAssignment = async () => {
       try {
-        const response = await fetch(`http://localhost:9998/submit/${id}`); // This should work now
+        const response = await fetch(`https://study-assembles-server.onrender.com/submit/${id}`); // This should work now
         const data = await response.json();
         setAssignment(data);
       } catch (error) {
@@ -27,7 +27,7 @@ const GiveMarks = () => {
     e.preventDefault();
 
     
-      const response = await fetch(`http://localhost:9998/submissions/${id}`, {
+      const response = await fetch(`https://study-assembles-server.onrender.com/submissions/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

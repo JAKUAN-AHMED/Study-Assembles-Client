@@ -13,7 +13,7 @@ const FeatureCard = ({ item }) => {
   const { title, description, marks, _id, difficulty, thumbnailURL, dueDate } =
     item;
   return (
-    <div data-aos="fade-up-left" className="card bg-base-100 shadow-xl">
+    <div data-aos="fade-up-left"  className="card bg-base-100 shadow-xl overflow-hidden">
       <figure>
         <img src={thumbnailURL} alt="image" />
       </figure>

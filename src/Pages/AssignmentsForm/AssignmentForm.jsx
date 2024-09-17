@@ -35,7 +35,7 @@ const AssignmentForm = () => {
     setDifficulty("easy");
     setDueDate(null);
     //post data to server
-    fetch("http://localhost:9998/tasks", {
+    fetch("https://study-assembles-server.onrender.com/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
