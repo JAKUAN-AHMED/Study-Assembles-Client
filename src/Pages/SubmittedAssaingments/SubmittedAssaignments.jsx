@@ -1,8 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/Provider/ProviderContext";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const SubmittedAssignments = () => {
+   useEffect(() => {
+     AOS.init({
+       duration: 1000, // You can also configure AOS here
+     });
+   }, []);
   const [assignments, setAssignments] = useState([]);
   const { User, Loader } = useContext(AuthContext);
 
@@ -49,6 +55,7 @@ const SubmittedAssignments = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {assignments.map((assignment) => (
             <div
+            data-aos="fade-up-right"
               key={assignment._id}
               className="border rounded-lg shadow-md p-4 bg-white hover:shadow-xl transition-shadow duration-300"
             >

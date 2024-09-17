@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
-import { div } from "framer-motion/client";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const PendingAssignments = () => {
   const [pendingAssignments, setPendingAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ useEffect(() => {
+   AOS.init({
+     duration: 1000, // You can also configure AOS here
+   });
+ }, []);
   // Fetch pending assignments
   useEffect(() => {
     const fetchPendingAssignments = async () => {
@@ -59,6 +63,7 @@ const PendingAssignments = () => {
             {pendingAssignments.map((assignment) => (
               <div
                 key={assignment._id}
+                data-aos="fade-up-right"
                 className="bg-white border p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
               >
                 <img

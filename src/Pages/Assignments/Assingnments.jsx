@@ -4,8 +4,15 @@ import Footer from "../../Components/Footer/Footer";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Contexts/Provider/ProviderContext";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Assignments = () => {
+   useEffect(() => {
+     AOS.init({
+       duration: 1000, // You can also configure AOS here
+     });
+   }, []);
   const [assignmentsData, setAssignments] = useState([]);
   const [filter, setFilter] = useState("all");
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -132,6 +139,7 @@ const Assignments = () => {
           {filteredAssignments.map((assignment) => (
             <div
               key={assignment._id}
+              data-aos="fade-up-left"
               className="bg-white border rounded-lg shadow-lg overflow-hidden"
             >
               <img

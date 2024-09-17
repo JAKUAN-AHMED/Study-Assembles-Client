@@ -1,13 +1,19 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts/Provider/ProviderContext";
 import { Link } from "react-router-dom";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const FeatureCard = ({ item }) => {
+   useEffect(() => {
+     AOS.init({
+       duration: 1000, // You can also configure AOS here
+     });
+   }, []);
   const { User } = useContext(AuthContext);
   const { title, description, marks, _id, difficulty, thumbnailURL, dueDate } =
     item;
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div data-aos="fade-up-left" className="card bg-base-100 shadow-xl">
       <figure>
         <img src={thumbnailURL} alt="image" />
       </figure>

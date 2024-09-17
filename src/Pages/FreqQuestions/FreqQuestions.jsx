@@ -1,6 +1,12 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const FreqQuestions = () => {
+   useEffect(() => {
+     AOS.init({
+       duration: 1000, // You can also configure AOS here
+     });
+   }, []);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const questions = [
@@ -38,10 +44,11 @@ const FreqQuestions = () => {
         <h2 className="text-3xl font-bold text-black mb-6">
           Frequently Asked Questions
         </h2>
-        <ul className="space-y-4">
+        <ul className="space-y-4" data-aos="fade-up-left">
           {questions.map((item, index) => (
             <li
               key={index}
+              data-aos="fade-up-left"
               onClick={() => setSelectedQuestion(item)}
               className={`cursor-pointer p-4 border rounded-lg transition-colors ${
                 selectedQuestion === item

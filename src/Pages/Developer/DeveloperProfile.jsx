@@ -18,11 +18,11 @@ const DeveloperProfile = () => {
           className="flex flex-col items-center text-center"
         >
           <img
-            src={User?.photoURL} // Replace with developer's picture
+            src="https://i.ibb.co.com/c3d5DVv/FB-IMG-1714917675483.jpg"
             alt="Developer"
             className="w-32 h-32 rounded-full border-4 border-gray-600 mb-4"
           />
-          <h2 className="text-3xl font-bold mb-2">John Doe</h2>
+          <h2 className="text-3xl font-bold mb-2">JAKUAN AHMED</h2>
           <p className="text-lg mb-6">
             Web Developer with a passion for creating interactive and <br />
             user-friendly applications. Follow me on my social media for updates
